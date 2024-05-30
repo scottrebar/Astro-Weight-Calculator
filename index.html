@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="style.css" rel="stylesheet">
+    <title>Astro Weight Calculator</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+</head>
+<body>
+    <div class="background-video">
+        <video class="video-player" id="my-video" autoplay loop muted>
+        <source src="assets/space.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div id="center-box"class="container">
+        <h1>Astro Weight Calculator</h1>
+        <input id="user-weight" type="text" placeholder="Weight (lbs)" />
+        <select id="planets" class="dropdown-content">
+            <!-- Options populated by JavaScript -->
+        </select>
+        <button id="calculate-button" type="submit">Calculate!</button>
+        <p id="output"></p>
+    </div>
+    <div>
+        <span id="space-fact-link">
+            <a href="#" onclick="getSpaceFact()">Did you know...?</a>
+          </span>
+          
+          <script>
+          function getSpaceFact() {
+            const factContainer = document.createElement('div');
+            factContainer.id = 'space-fact';
+            document.body.appendChild(factContainer);
+          
+            fetch('https://api.gemini.ai/v1/text/generate', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                prompt: 'Give me a random fact about the solar system, space, or celestial bodies.',
+                max_tokens: 64, // Adjust this for longer or shorter facts
+                temperature: 0.9, // Adjust for creativity vs informativeness
+              }),
+            })
+            .then(response => response.json())
+            .then(data => {
+              const fact = data.generated_text[0];
+              factContainer.textContent = fact;
+            });
+          }
+          </script>
+    </div>
+    <div id="bottom-links" class="footer">
+        <a href="profile.html" id="profile-link">Keep in Touch</a>
+        <a href="https://www.crazygames.com/game/starblastio" id="game">I'm bored...</a>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
